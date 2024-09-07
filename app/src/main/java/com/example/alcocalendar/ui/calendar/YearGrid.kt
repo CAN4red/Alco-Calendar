@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.alcocalendar.ui.model.MonthModel
 import com.example.alcocalendar.ui.model.YearModel
+import com.example.alcocalendar.ui.model.asList
 import java.time.Month
 
 @Composable
@@ -33,7 +34,7 @@ fun YearGrid(
         modifier = modifier.padding(horizontal = 4.dp),
         contentPadding = PaddingValues(0.dp)
     ) {
-        items(items = yearModel.months) { month ->
+        items(items = yearModel.months.values.toList()) { month ->
             NonDetailedMonthLayout(
                 monthModel = month,
                 startFromSunday = startFromSunday,
@@ -78,28 +79,28 @@ fun NonDetailedMonthGrid(
     val monthMatrix = monthModel.getMonthMatrix(startFromSunday = startFromSunday)
 
     Row(modifier = modifier.fillMaxWidth()) {
-        monthMatrix.forEach { weekday ->
+        monthMatrix.forEach { sessions ->
             Column(
                 verticalArrangement = Arrangement.Top,
                 modifier = Modifier.weight(1f)
             ) {
                 // Adding empty cells at the start of the month
-                if (monthMatrix.indexOf(weekday) + 1 < weekday[0].dayOfMonth &&
-                    weekday[0].dayOfMonth != 1
+                if (monthMatrix.indexOf(sessions) + 1 < sessions[0].date.dayOfMonth &&
+                    sessions[0].date.dayOfMonth != 1
                 ) {
                     EmptyCell(modifier = Modifier.fillMaxWidth())
                 }
 
                 // Generating the dates
-                weekday.forEach { date ->
+                sessions.forEach { session ->
                     SmallDateCell(
-                        date = date,
+                        session = session,
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
 
                 // Adding empty cells at the end of the month
-                if (monthMatrix[0].last().dayOfMonth - weekday.last().dayOfMonth >= 1) {
+                if (monthMatrix[0].last().date.dayOfMonth - sessions.last().date.dayOfMonth >= 1) {
                     EmptyCell(modifier = Modifier.fillMaxWidth())
                 }
             }

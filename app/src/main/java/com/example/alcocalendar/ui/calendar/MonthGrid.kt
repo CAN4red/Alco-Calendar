@@ -13,8 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.alcocalendar.ui.model.DrinkingSessionModel
 import com.example.alcocalendar.ui.model.MonthModel
-import com.example.alcocalendar.ui.model.Weekdays
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import java.time.LocalDate
@@ -26,7 +26,7 @@ import java.util.Locale
 @Composable
 fun MonthGrid(
     monthModel: MonthModel,
-    onClick: (LocalDate) -> Unit,
+    onClick: (DrinkingSessionModel) -> Unit,
     startFromSunday: Boolean,
     modifier: Modifier = Modifier,
 ) {
@@ -41,30 +41,30 @@ fun MonthGrid(
 
         val monthMatrix = monthModel.getMonthMatrix(startFromSunday)
         Row(modifier = Modifier.fillMaxWidth()) {
-            monthMatrix.forEach { weekday ->
+            monthMatrix.forEach { sessions ->
                 Column(
                     verticalArrangement = Arrangement.Top,
                     modifier = Modifier.weight(1f)
                 ) {
                     // Adding empty cells at the start of the month
-                    if (monthMatrix.indexOf(weekday) + 1 < weekday[0].dayOfMonth &&
-                        weekday[0].dayOfMonth != 1
+                    if (monthMatrix.indexOf(sessions) + 1 < sessions[0].date.dayOfMonth &&
+                        sessions[0].date.dayOfMonth != 1
                     ) {
                         EmptyCell(modifier = Modifier.fillMaxWidth())
                     }
 
                     // Generating the dates
-                    weekday.forEach { date ->
+                    sessions.forEach { session ->
                         DateCell(
-                            date = date,
+                            session = session,
                             signal = false,
-                            onClick = { onClick(date) },
+                            onClick = { onClick(session) },
                             modifier = Modifier.fillMaxWidth()
                         )
                     }
 
                     // Adding empty cells at the end of the month
-                    if (monthMatrix[0].last().dayOfMonth - weekday.last().dayOfMonth >= 1) {
+                    if (monthMatrix[0].last().date.dayOfMonth - sessions.last().date.dayOfMonth >= 1) {
                         EmptyCell(modifier = Modifier.fillMaxWidth())
                     }
                 }

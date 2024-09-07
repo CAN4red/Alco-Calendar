@@ -9,7 +9,7 @@ import java.time.Month
 class MonthModel(
     val name: String,
     val year: Int,
-    val dates: List<LocalDate>,
+    val dates: List<DrinkingSessionModel>,
     val firstDay: LocalDate,
     val lastDay: LocalDate,
 ) {
@@ -17,21 +17,27 @@ class MonthModel(
     constructor(year: Int, month: Month) : this(
         name = month.getMonthName(),
         year = year,
-        dates = generateDates(year, month),
+        dates = generateEmptySessions(year, month),
         firstDay = getFirstDay(year, month),
         lastDay = getLastDay(year, month),
     )
 
+    fun getDay(date: Int): DrinkingSessionModel {
+        return dates[date - 1]
+    }
+
+    // Gets a matrix like [Column number = Weekday number] with Empty Drinking Sessions
     @SuppressLint("NewApi")
     fun getMonthMatrix(
         startFromSunday: Boolean
-    ): List<List<LocalDate>> {
-        val weekdaysSpread: MutableList<MutableList<LocalDate>> = MutableList(7) { mutableListOf() }
+    ): List<List<DrinkingSessionModel>> {
+        val weekdaysSpread: MutableList<MutableList<DrinkingSessionModel>> =
+            MutableList(7) { mutableListOf() }
 
-        for (date in this.dates) {
-            val weekdayString = date.getWeekday()
+        for (session in this.dates) {
+            val weekdayString = session.date.getWeekday()
             val weekday = Weekdays.fromString(weekdayString)
-            weekdaysSpread[weekday.ordinal].add(date)
+            weekdaysSpread[weekday.ordinal].add(session)
         }
         if (startFromSunday) {
             weekdaysSpread.add(0, weekdaysSpread.removeAt(6))
@@ -51,13 +57,13 @@ fun getFirstDay(year: Int, month: Month): LocalDate =
     LocalDate.of(year, month, 1)
 
 @SuppressLint("NewApi")
-fun generateDates(year: Int, month: Month): List<LocalDate> {
-    val dates = mutableListOf<LocalDate>()
+fun generateEmptySessions(year: Int, month: Month): List<DrinkingSessionModel> {
+    val sessions = mutableListOf<DrinkingSessionModel>()
     val lastDay = getLastDay(year, month).dayOfMonth
     for (day in 1..lastDay) {
-        dates.add(LocalDate.of(year, month, day))
+        sessions.add(DrinkingSessionModel(LocalDate.of(year, month, day)))
     }
-    return dates.toImmutableList()
+    return sessions.toImmutableList()
 }
 
 @SuppressLint("NewApi")

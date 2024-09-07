@@ -1,3 +1,5 @@
+import kotlin.coroutines.coroutineContext
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -73,4 +75,10 @@ dependencies {
     // Horizontal pager
     implementation(libs.accompanist.pager)
     implementation(libs.accompanist.pager.indicators)
+
+    // Coroutines and ViewModel
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
 }

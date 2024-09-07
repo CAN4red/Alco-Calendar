@@ -22,15 +22,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.alcocalendar.ui.model.DrinkingSessionModel
 import com.example.alcocalendar.ui.model.MonthModel
-import java.time.LocalDate
 import java.time.Month
 
 @SuppressLint("NewApi")
 @Composable
 fun MonthLayout(
     monthModel: MonthModel,
-    onClick: (LocalDate) -> Unit,
+    onClick: (DrinkingSessionModel) -> Unit,
     startFromSunday: Boolean,
     modifier: Modifier = Modifier
 ) {

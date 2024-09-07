@@ -5,14 +5,22 @@ import java.time.Month
 
 class YearModel(
     val year: Int,
-    val months: List<MonthModel>
+    val months: Map<Month, MonthModel>
 ) {
     constructor(year: Int) : this(
         year = year,
-        months = getAllMonths().map { month ->
+        months = getAllMonths().associateWith { month ->
             MonthModel(year, month)
         }
     )
+
+    fun getMonth(month: Month): MonthModel {
+        return months[month] ?: throw IllegalArgumentException("Invalid month: $month")
+    }
+}
+
+fun <K, V> Map<K, V>.asList(): List<V> {
+    return this.values.toList()
 }
 
 @SuppressLint("NewApi")

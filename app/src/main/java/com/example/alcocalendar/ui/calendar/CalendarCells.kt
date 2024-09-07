@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import java.time.format.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.alcocalendar.ui.model.DrinkingSessionModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -34,12 +35,12 @@ private fun LocalDate.formatToStringDay(): String {
 @SuppressLint("NewApi")
 @Composable
 fun DateCell(
-    date: LocalDate,
+    session: DrinkingSessionModel,
     signal: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val day = date.formatToStringDay()
+    val day = session.date.formatToStringDay()
 
     Box(
         modifier = modifier
@@ -73,7 +74,7 @@ fun DateCell(
 
 @Composable
 fun SmallDateCell(
-    date: LocalDate,
+    session: DrinkingSessionModel,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -99,25 +100,6 @@ fun EmptyCell(modifier: Modifier = Modifier) {
             )
             .clip(RectangleShape)
     ) {}
-}
-
-@SuppressLint("NewApi")
-fun getDayOfWeekAbbreviation(
-    day: Int,
-    month: Int,
-    year: Int,
-    language: String,
-): String {
-    val date = LocalDate.of(year, month, day)
-    val dayOfWeek = date.dayOfWeek
-
-    val locale = when (language.lowercase()) {
-        "ru" -> Locale("ru", "RU")
-        "en" -> Locale("en", "US")
-        else -> Locale.getDefault()
-    }
-
-    return dayOfWeek.getDisplayName(TextStyle.SHORT, locale).uppercase()
 }
 
 @SuppressLint("NewApi")
@@ -148,11 +130,30 @@ fun WeekdayCell(
 }
 
 @SuppressLint("NewApi")
+fun getDayOfWeekAbbreviation(
+    day: Int,
+    month: Int,
+    year: Int,
+    language: String,
+): String {
+    val date = LocalDate.of(year, month, day)
+    val dayOfWeek = date.dayOfWeek
+
+    val locale = when (language.lowercase()) {
+        "ru" -> Locale("ru", "RU")
+        "en" -> Locale("en", "US")
+        else -> Locale.getDefault()
+    }
+
+    return dayOfWeek.getDisplayName(TextStyle.SHORT, locale).uppercase()
+}
+
+@SuppressLint("NewApi")
 @Preview
 @Composable
 fun DateCellPreview() {
     DateCell(
-        date = LocalDate.now(),
+        session = DrinkingSessionModel(LocalDate.now()),
         signal = false,
         onClick = { }
     )
@@ -169,5 +170,5 @@ fun WeekdayCellPreview() {
 @Preview
 @Composable
 fun SmallDateCellPreview() {
-    SmallDateCell(date = LocalDate.now())
+    SmallDateCell(session = DrinkingSessionModel(LocalDate.now()))
 }
