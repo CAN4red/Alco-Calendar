@@ -18,7 +18,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.alcocalendar.ui.model.MonthModel
 import com.example.alcocalendar.ui.model.YearModel
-import com.example.alcocalendar.ui.model.asList
 import java.time.Month
 
 @Composable

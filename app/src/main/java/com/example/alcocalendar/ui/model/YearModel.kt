@@ -19,10 +19,6 @@ class YearModel(
     }
 }
 
-fun <K, V> Map<K, V>.asList(): List<V> {
-    return this.values.toList()
-}
-
 @SuppressLint("NewApi")
 fun getAllMonths(): List<Month> {
     return listOf(
