@@ -1,6 +1,7 @@
-package com.example.alcocalendar.ui.calendar
+package com.example.alcocalendar.ui.calendar.year
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,18 +17,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.alcocalendar.ui.calendar.EmptyCell
+import com.example.alcocalendar.ui.calendar.SmallDateCell
 import com.example.alcocalendar.ui.model.MonthModel
 import com.example.alcocalendar.ui.model.YearModel
 import java.time.Month
 
 @Composable
 fun YearGrid(
-    year: Int,
+    yearModel: YearModel,
     startFromSunday: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    val yearModel = YearModel(year)
-
     LazyVerticalGrid(
         columns = GridCells.Adaptive(100.dp),
         modifier = modifier.padding(horizontal = 4.dp),
@@ -77,7 +78,11 @@ fun NonDetailedMonthGrid(
 ) {
     val monthMatrix = monthModel.getMonthMatrix(startFromSunday = startFromSunday)
 
-    Row(modifier = modifier.fillMaxWidth()) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable(onClick = {})
+    ) {
         monthMatrix.forEach { sessions ->
             Column(
                 verticalArrangement = Arrangement.Top,
@@ -111,7 +116,7 @@ fun NonDetailedMonthGrid(
 @Composable
 @Preview
 fun YearGridPreview() {
-    YearGrid(year = 2024, startFromSunday = false)
+    YearGrid(yearModel = YearModel(2024), startFromSunday = false)
 }
 
 @SuppressLint("NewApi")

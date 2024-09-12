@@ -1,7 +1,7 @@
 package com.example.alcocalendar.ui.model
 
 import android.annotation.SuppressLint
-import com.example.alcocalendar.ui.calendar.getWeekday
+import com.example.alcocalendar.ui.calendar.month.getWeekday
 import kotlinx.collections.immutable.toImmutableList
 import java.time.LocalDate
 import java.time.Month
@@ -24,6 +24,10 @@ class MonthModel(
 
     fun getDay(date: Int): DrinkingSessionModel {
         return dates[date - 1]
+    }
+
+    override fun toString(): String {
+        return "$name $year"
     }
 
     // Gets a matrix like [Column number = Weekday number] with Empty Drinking Sessions

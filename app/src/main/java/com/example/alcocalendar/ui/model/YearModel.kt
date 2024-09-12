@@ -14,7 +14,7 @@ class YearModel(
         }
     )
 
-    fun getMonth(month: Month): MonthModel {
+    fun getMonthModel(month: Month): MonthModel {
         return months[month] ?: throw IllegalArgumentException("Invalid month: $month")
     }
 }

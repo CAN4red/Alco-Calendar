@@ -1,4 +1,4 @@
-package com.example.alcocalendar.ui.calendar
+package com.example.alcocalendar.ui.calendar.month
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -13,6 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.alcocalendar.ui.calendar.DateCell
+import com.example.alcocalendar.ui.calendar.EmptyCell
+import com.example.alcocalendar.ui.calendar.WeekdayCell
 import com.example.alcocalendar.ui.model.DrinkingSessionModel
 import com.example.alcocalendar.ui.model.MonthModel
 import kotlinx.collections.immutable.ImmutableList
@@ -30,7 +33,9 @@ fun MonthGrid(
     startFromSunday: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    Column {
+    Column(
+        modifier = modifier
+    ) {
         Row(modifier = Modifier.fillMaxWidth()) {
             getWeekDays(startFromSunday = startFromSunday).forEach {
                 WeekdayCell(weekday = it, modifier = Modifier.weight(1f))
