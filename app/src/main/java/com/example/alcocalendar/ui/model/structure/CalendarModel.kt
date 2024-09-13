@@ -10,6 +10,9 @@ import java.time.Month
 @SuppressLint("NewApi")
 object CalendarModel {
 
+    var currentMonth: Month? = null
+    var currentYear: Int? = null
+
     private const val FIRST_YEAR: Int = 2000
     private const val LAST_YEAR: Int = 2200
     private const val MONTHS_NUMBER: Int = 12

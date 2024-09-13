@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.util.Log
 import com.example.alcocalendar.ui.model.MonthModel
 import com.example.alcocalendar.ui.model.YearModel
+import com.example.alcocalendar.ui.model.structure.CalendarModel.currentMonth
+import com.example.alcocalendar.ui.model.structure.CalendarModel.currentYear
 import java.time.Month
 
 object CalendarModelAdapter : CalendarProvider {
@@ -17,16 +19,29 @@ object CalendarModelAdapter : CalendarProvider {
     override val yearsCount: Int = calendarModel.yearsCount
     override val monthsCount: Int = calendarModel.monthsCount
 
-    fun getInitialMonthIndex(): Int {
+    fun updateCalendarState(
+        year: Int,
+        month: Month? = calendarModel.currentMonth
+    ) {
+        calendarModel.apply {
+            currentYear = currentYear ?: initialYear
+            currentMonth = currentMonth ?: initialMonth
+
+            currentYear = year
+            currentMonth = month
+        }
+    }
+
+    fun getMonthIndex(): Int {
         return monthToIndex(
-            year = initialYear,
-            month = initialMonth
+            year = currentYear ?: CalendarModel.initialYear,
+            month = currentMonth ?: CalendarModel.initialMonth
         )
     }
 
-    fun getInitialYearIndex(): Int {
+    fun getYearIndex(): Int {
         return yearToIndex(
-            year = initialYear
+            year = currentYear ?: CalendarModel.initialYear
         )
     }
 
@@ -71,23 +86,23 @@ object CalendarModelAdapter : CalendarProvider {
     }
 
     @SuppressLint("NewApi")
-    private fun indexToMonth(index: Int): Month {
+    fun indexToMonth(index: Int): Month {
         return Month.of(index % MONTHS_NUMBER + 1)
     }
 
-    private fun monthToIndex(year: Int, month: Month): Int {
+    fun monthToIndex(year: Int, month: Month): Int {
         return (year - FIRST_YEAR) * MONTHS_NUMBER + month.ordinal
     }
 
-    private fun indexToYearForMonth(index: Int): Int {
+    fun indexToYearForMonth(index: Int): Int {
         return (index / MONTHS_NUMBER) + FIRST_YEAR
     }
 
-    private fun indexToYear(index: Int): Int {
+    fun indexToYear(index: Int): Int {
         return index + FIRST_YEAR
     }
 
-    private fun yearToIndex(year: Int): Int {
+    fun yearToIndex(year: Int): Int {
         return year - FIRST_YEAR
     }
 }

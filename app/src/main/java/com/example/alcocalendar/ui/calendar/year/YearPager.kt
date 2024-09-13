@@ -14,10 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.alcocalendar.ui.model.structure.CalendarModelAdapter
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun YearPager(
     pagerState: PagerState,
+    onMonthClick: () -> Unit,
     startFromSunday: Boolean,
     modifier: Modifier = Modifier
 ) {
@@ -29,6 +29,7 @@ fun YearPager(
     ) { yearIndex ->
         YearGrid(
             yearModel = calendarProvider.getYearModel(yearIndex),
+            onMonthClick = onMonthClick,
             startFromSunday = startFromSunday,
             modifier = Modifier.fillMaxSize()
         )
@@ -37,7 +38,6 @@ fun YearPager(
 
 @SuppressLint("NewApi")
 @Preview
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun YearPagerPreview() {
     val pagerState = rememberPagerState(
@@ -45,5 +45,5 @@ fun YearPagerPreview() {
         pageCount = { CalendarModelAdapter.yearsCount }
     )
 
-    YearPager(pagerState = pagerState, startFromSunday = false)
+    YearPager(pagerState = pagerState, onMonthClick = {}, startFromSunday = false)
 }

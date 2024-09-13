@@ -1,6 +1,5 @@
 package com.example.alcocalendar.ui.calendar.month
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
@@ -14,7 +13,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.alcocalendar.ui.model.DrinkingSessionModel
 import com.example.alcocalendar.ui.model.structure.CalendarModelAdapter
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MonthPager(
     pagerState: PagerState,
@@ -37,12 +35,11 @@ fun MonthPager(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Preview
 @Composable
 fun MonthPagerPreview() {
     val pagerState = rememberPagerState(
-        initialPage = CalendarModelAdapter.getInitialMonthIndex(),
+        initialPage = CalendarModelAdapter.getMonthIndex(),
         pageCount = { CalendarModelAdapter.monthsCount }
     )
     MonthPager(

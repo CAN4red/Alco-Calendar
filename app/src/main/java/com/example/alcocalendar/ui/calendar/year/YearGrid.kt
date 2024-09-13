@@ -21,11 +21,13 @@ import com.example.alcocalendar.ui.calendar.EmptyCell
 import com.example.alcocalendar.ui.calendar.SmallDateCell
 import com.example.alcocalendar.ui.model.MonthModel
 import com.example.alcocalendar.ui.model.YearModel
+import com.example.alcocalendar.ui.model.structure.CalendarModelAdapter
 import java.time.Month
 
 @Composable
 fun YearGrid(
     yearModel: YearModel,
+    onMonthClick: () -> Unit,
     startFromSunday: Boolean,
     modifier: Modifier = Modifier,
 ) {
@@ -34,16 +36,25 @@ fun YearGrid(
         modifier = modifier.padding(horizontal = 4.dp),
         contentPadding = PaddingValues(0.dp)
     ) {
-        items(items = yearModel.months.values.toList()) { month ->
+        items(items = yearModel.months.values.toList()) { monthModel ->
             NonDetailedMonthLayout(
-                monthModel = month,
+                monthModel = monthModel,
                 startFromSunday = startFromSunday,
-                modifier = Modifier.padding(
-                    top = 8.dp,
-                    bottom = 16.dp,
-                    start = 8.dp,
-                    end = 8.dp
-                )
+                modifier = Modifier
+                    .padding(
+                        top = 8.dp,
+                        bottom = 16.dp,
+                        start = 8.dp,
+                        end = 8.dp
+                    )
+                    .clickable(onClick = {
+                        CalendarModelAdapter.updateCalendarState(
+                            year = monthModel.year,
+                            month = monthModel.month
+                        )
+                        onMonthClick()
+                    }
+                    )
             )
         }
     }
@@ -81,7 +92,6 @@ fun NonDetailedMonthGrid(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clickable(onClick = {})
     ) {
         monthMatrix.forEach { sessions ->
             Column(
@@ -116,7 +126,7 @@ fun NonDetailedMonthGrid(
 @Composable
 @Preview
 fun YearGridPreview() {
-    YearGrid(yearModel = YearModel(2024), startFromSunday = false)
+    YearGrid(yearModel = YearModel(2024), onMonthClick = {}, startFromSunday = false)
 }
 
 @SuppressLint("NewApi")

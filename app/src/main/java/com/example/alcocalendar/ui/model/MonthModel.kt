@@ -9,17 +9,15 @@ import java.time.Month
 class MonthModel(
     val name: String,
     val year: Int,
+    val month: Month,
     val dates: List<DrinkingSessionModel>,
-    val firstDay: LocalDate,
-    val lastDay: LocalDate,
 ) {
     @SuppressLint("NewApi")
     constructor(year: Int, month: Month) : this(
         name = month.getMonthName(),
         year = year,
+        month = month,
         dates = generateEmptySessions(year, month),
-        firstDay = getFirstDay(year, month),
-        lastDay = getLastDay(year, month),
     )
 
     fun getDay(date: Int): DrinkingSessionModel {
