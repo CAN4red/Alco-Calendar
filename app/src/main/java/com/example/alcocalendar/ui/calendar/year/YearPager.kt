@@ -27,8 +27,9 @@ fun YearPager(
         state = pagerState,
         modifier = modifier
     ) { yearIndex ->
+        val yearModel = remember(yearIndex) { calendarProvider.getYearModel(yearIndex) }
         YearGrid(
-            yearModel = calendarProvider.getYearModel(yearIndex),
+            yearModel = yearModel,
             onMonthClick = onMonthClick,
             startFromSunday = startFromSunday,
             modifier = Modifier.fillMaxSize()

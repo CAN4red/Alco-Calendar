@@ -1,7 +1,6 @@
 package com.example.alcocalendar.ui.model.structure
 
 import android.annotation.SuppressLint
-import android.util.Log
 import com.example.alcocalendar.ui.model.MonthModel
 import com.example.alcocalendar.ui.model.YearModel
 import java.time.LocalDate

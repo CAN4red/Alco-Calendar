@@ -5,7 +5,7 @@ import java.time.Month
 
 class YearModel(
     val year: Int,
-    val months: Map<Month, MonthModel>
+    val months: Map<Month, MonthModel>,
 ) {
     constructor(year: Int) : this(
         year = year,

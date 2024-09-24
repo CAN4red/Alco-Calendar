@@ -44,7 +44,9 @@ fun MonthGrid(
 
         Spacer(modifier = Modifier.size(8.dp))
 
-        val monthMatrix = monthModel.getMonthMatrix(startFromSunday)
+        monthModel.changeLayoutForSundays(startFromSunday)
+        val monthMatrix = monthModel.monthMatrix
+
         Row(modifier = Modifier.fillMaxWidth()) {
             monthMatrix.forEach { sessions ->
                 Column(

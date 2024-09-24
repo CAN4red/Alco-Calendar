@@ -76,15 +76,14 @@ dependencies {
     implementation(libs.accompanist.pager)
     implementation(libs.accompanist.pager.indicators)
 
-    // Coroutines and ViewModel
-    implementation(libs.androidx.core.ktx)
+    // ViewModel
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    
+    // Coroutines
+    implementation(libs.androidx.core.ktx)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
 
     // Navigation
     implementation(libs.androidx.navigation.compose)
-
-    // Icons
-    implementation(libs.androidx.material.icons.extended)
 }

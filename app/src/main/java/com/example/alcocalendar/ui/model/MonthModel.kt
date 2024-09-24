@@ -20,6 +20,9 @@ class MonthModel(
         dates = generateEmptySessions(year, month),
     )
 
+    var monthMatrix: List<List<DrinkingSessionModel>> = generateMonthMatrix()
+        private set
+
     fun getDay(date: Int): DrinkingSessionModel {
         return dates[date - 1]
     }
@@ -30,9 +33,7 @@ class MonthModel(
 
     // Gets a matrix like [Column number = Weekday number] with Empty Drinking Sessions
     @SuppressLint("NewApi")
-    fun getMonthMatrix(
-        startFromSunday: Boolean
-    ): List<List<DrinkingSessionModel>> {
+    private fun generateMonthMatrix(): List<List<DrinkingSessionModel>> {
         val weekdaysSpread: MutableList<MutableList<DrinkingSessionModel>> =
             MutableList(7) { mutableListOf() }
 
@@ -41,10 +42,16 @@ class MonthModel(
             val weekday = Weekdays.fromString(weekdayString)
             weekdaysSpread[weekday.ordinal].add(session)
         }
-        if (startFromSunday) {
-            weekdaysSpread.add(0, weekdaysSpread.removeAt(6))
-        }
+
         return weekdaysSpread.toImmutableList().map { it.toImmutableList() }
+    }
+
+    fun changeLayoutForSundays(startFromSunday: Boolean) {
+        monthMatrix = if (startFromSunday) {
+            monthMatrix.toMutableList().apply { add(0, removeAt(6)) }.toImmutableList()
+        } else {
+            generateMonthMatrix()
+        }
     }
 }
 

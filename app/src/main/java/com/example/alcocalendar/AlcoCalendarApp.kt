@@ -1,13 +1,5 @@
 package com.example.alcocalendar
 
-//noinspection UsingMaterialAndMaterial3Libraries
-import androidx.compose.material.BottomNavigation
-//noinspection UsingMaterialAndMaterial3Libraries
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CalendarMonth
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -45,26 +37,4 @@ fun AlcoCalendarApp(
             )
         }
     }
-}
-
-@Composable
-fun BottomNavigationBar(navController: NavHostController) {
-    BottomNavigation {
-        BottomNavigationItem(
-            icon = { Icon(Icons.Filled.CalendarMonth, contentDescription = "MonthView") },
-            label = { Text("Months") },
-            selected = false,
-            onClick = { navController.navigate(CalendarScreen.MonthView.name) }
-        )
-        BottomNavigationItem(
-            icon = { Icon(Icons.Filled.CalendarMonth, contentDescription = "YearView") },
-            label = { Text("Years") },
-            selected = false,
-            onClick = { navController.navigate(CalendarScreen.YearView.name) }
-        )
-    }
-}
-
-fun main() {
-    println("".toInt() ?: "It is null")
 }
