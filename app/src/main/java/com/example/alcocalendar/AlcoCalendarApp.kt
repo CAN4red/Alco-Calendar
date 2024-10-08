@@ -1,5 +1,6 @@
 package com.example.alcocalendar
 
+import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -13,7 +14,7 @@ import com.example.alcocalendar.ui.navigation.CalendarScreen
 @Composable
 fun AlcoCalendarApp(
     navController: NavHostController = rememberNavController(),
-    modifier: Modifier = Modifier,
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier,
 ) {
     NavHost(
         navController = navController,

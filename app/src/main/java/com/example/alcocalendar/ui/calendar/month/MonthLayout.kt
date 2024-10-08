@@ -3,12 +3,12 @@ package com.example.alcocalendar.ui.calendar.month
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
@@ -32,9 +32,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.alcocalendar.ui.model.DrinkingSessionModel
 import com.example.alcocalendar.ui.model.structure.CalendarModelAdapter
+import com.example.alcocalendar.ui.model.structure.CalendarProvider
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class)
 @SuppressLint("NewApi")
 @Composable
 fun MonthLayout(
@@ -44,7 +44,6 @@ fun MonthLayout(
     modifier: Modifier = Modifier,
 ) {
     val calendarProvider by remember { mutableStateOf(CalendarModelAdapter) }
-    val coroutineScope = rememberCoroutineScope()
 
     val pagerState = rememberPagerState(
         initialPage = calendarProvider.getMonthIndex(),
@@ -55,57 +54,72 @@ fun MonthLayout(
         verticalArrangement = Arrangement.Top,
         modifier = modifier,
     ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-        ) {
-            NavigationButton(
-                enabled = calendarProvider.hasPreviousMonth(pagerState.currentPage),
-                onClick = {
-                    coroutineScope.launch {
-                        pagerState.animateScrollToPage(pagerState.currentPage - 1)
-                    }
-                },
-                icon = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                contentDescription = "Back"
-            )
-
-            TextButton(onClick = {
-                CalendarModelAdapter.updateCalendarState(
-                    year = calendarProvider.getMonthModel(pagerState.currentPage).year,
-                    month = calendarProvider.getMonthModel(pagerState.currentPage).month
-                )
-                onTitleClick()
-            }) {
-                Text(
-                    text = calendarProvider.getMonthModel(pagerState.currentPage).toString(),
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .align(Alignment.CenterVertically)
-                )
-            }
-
-            NavigationButton(
-                enabled = calendarProvider.hasNextMonth(pagerState.currentPage),
-                onClick = {
-                    coroutineScope.launch {
-                        pagerState.animateScrollToPage(pagerState.currentPage + 1)
-                    }
-                },
-                icon = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                contentDescription = "Forward"
-            )
-        }
+        CalendarNavigationBar(
+            calendarProvider = calendarProvider,
+            onTitleClick = onTitleClick,
+            pagerState = pagerState
+        )
 
         MonthPager(
             pagerState = pagerState,
             startFromSunday = startFromSunday,
             onClick = onClick,
             modifier = Modifier.fillMaxWidth()
+        )
+    }
+}
+
+@Composable
+fun CalendarNavigationBar(
+    calendarProvider: CalendarProvider,
+    onTitleClick: () -> Unit,
+    pagerState: PagerState,
+) {
+    val coroutineScope = rememberCoroutineScope()
+
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+    ) {
+        NavigationButton(
+            enabled = calendarProvider.hasPreviousMonth(pagerState.currentPage),
+            onClick = {
+                coroutineScope.launch {
+                    pagerState.animateScrollToPage(pagerState.currentPage - 1)
+                }
+            },
+            icon = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+            contentDescription = "Back"
+        )
+
+        TextButton(onClick = {
+            CalendarModelAdapter.updateCalendarState(
+                year = calendarProvider.getMonthModel(pagerState.currentPage).year,
+                month = calendarProvider.getMonthModel(pagerState.currentPage).month
+            )
+            onTitleClick()
+        }) {
+            Text(
+                text = calendarProvider.getMonthModel(pagerState.currentPage).toString(),
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+            )
+        }
+
+        NavigationButton(
+            enabled = calendarProvider.hasNextMonth(pagerState.currentPage),
+            onClick = {
+                coroutineScope.launch {
+                    pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                }
+            },
+            icon = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+            contentDescription = "Forward"
         )
     }
 }
